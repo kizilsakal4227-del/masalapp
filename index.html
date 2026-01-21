@@ -99,14 +99,25 @@
             document.getElementById('step' + idx).classList.add('active');
         }
 
-        function initApp(g) {
-            config.gender = g;
-            document.body.className = (g === 'Prens') ? 'theme-prens' : 'theme-prenses';
-            // Ses motorunu uyandırmak için boş bir ses tetikliyoruz (iOS/Chrome kilidi için)
+       // initApp fonksiyonunu şu şekilde daha güvenli hale getirelim:
+function initApp(g) {
+    try {
+        config.gender = g;
+        document.body.className = (g === 'Prens') ? 'theme-prens' : 'theme-prenses';
+        
+        // Ses motoru hatasını engellemek için try-catch içine aldık
+        if ('speechSynthesis' in window) {
             window.speechSynthesis.getVoices();
-            showStep(2);
         }
+        
+        showStep(2);
+    } catch (e) {
+        console.log("Başlatma hatası:", e);
+        showStep(2); // Hata olsa bile ikinci adıma geç
+    }
+}
 
+ 
         function setupWords() {
             config.total = parseInt(document.getElementById('wordCount').value);
             config.words = new Array(config.total).fill("");
@@ -141,19 +152,22 @@
         }
 
         // --- GÜNCELLENMİŞ SESLENDİRME FONKSİYONU ---
-        function speakPage(text) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // Önceki okumayı durdur
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'tr-TR';
-                utterance.rate = 0.85; // Biraz yavaş ve masalsı
-                utterance.pitch = 1.1; // Hafif ince, masalsı tını
-                window.speechSynthesis.speak(utterance);
-            } else {
-                alert("Seslendirme bu cihazda desteklenmiyor.");
-            }
-        }
+        
 
+// speakPage fonksiyonunu da şu şekilde güncelle:
+function speakPage(text) {
+    try {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'tr-TR';
+            utterance.rate = 0.85;
+            window.speechSynthesis.speak(utterance);
+        }
+    } catch (e) {
+        console.error("Seslendirme hatası:", e);
+    }
+}
         async function startMagic() {
             const status = document.getElementById('statusMsg');
             const btn = document.getElementById('finalBtn');
