@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sihirli Sesli Masal Kitabı v7.0</title>
+    <title>Sihirli Sesli Masal v8.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -13,87 +13,89 @@
             --prenses-bg: linear-gradient(135deg, #ff9a9e, #fad0c4, #ffd1ff);
         }
         body { transition: all 0.5s ease; background: #0f0c29; color: #fff; font-family: 'Montserrat', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; }
-        .card { background: rgba(26, 26, 46, 0.98); padding: 25px; border-radius: 25px; width: 85%; max-width: 400px; margin-top: 30px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.6); border: 2px solid rgba(255,255,255,0.1); }
+        .card { background: rgba(26, 26, 46, 0.98); padding: 25px; border-radius: 25px; width: 85%; max-width: 400px; margin: 20px auto; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); }
         .step { display: none; }
         .step.active { display: block; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
         button { width: 100%; padding: 15px; border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; font-size: 16px; }
         button:disabled { opacity: 0.4; cursor: not-allowed; }
-        .btn-prens { background: #3498db; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4); }
-        .btn-prenses { background: #ff85a2; box-shadow: 0 4px 15px rgba(255, 133, 162, 0.4); }
-        .btn-start { background: #f1c40f; color: #000; font-size: 18px; }
-        .btn-voice { background: #9b59b6; width: auto; padding: 10px 20px; font-size: 13px; margin-bottom: 10px; border: 2px solid #fff; }
-        .btn-speak { background: #e74c3c; width: 150px; padding: 10px; margin: 10px auto; font-size: 14px; display: block; }
+        .btn-prens { background: #3498db; }
+        .btn-prenses { background: #ff85a2; }
+        .btn-start { background: #f1c40f; color: #000; font-size: 18px; box-shadow: 0 0 20px rgba(241, 196, 15, 0.4); }
+        .btn-voice { background: #9b59b6; width: auto; padding: 12px 25px; font-size: 14px; margin-bottom: 15px; border: 2px solid #fff; }
+        .btn-control { background: #2c3e50; flex: 1; }
+        .btn-speak { background: #e74c3c; width: 160px; padding: 10px; margin: 10px auto; font-size: 14px; display: block; }
 
-        input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 10px; border: 2px solid #333; font-size: 16px; text-align: center; box-sizing: border-box; }
-        .wait-msg { color: #f1c40f; font-weight: bold; margin-top: 20px; display: none; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; }
+        input { width: 100%; padding: 15px; margin: 15px 0; border-radius: 12px; border: 2px solid #333; font-size: 18px; text-align: center; box-sizing: border-box; background: #fff; color: #000; }
+        .wait-msg { color: #f1c40f; font-weight: bold; margin-top: 20px; display: none; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 15px; line-height: 1.6; }
         
-        .story-page { position: relative; width: 340px; height: 520px; margin: 20px auto; border: 6px solid #fff; border-radius: 15px; overflow: hidden; background: #000; }
+        .story-page { position: relative; width: 340px; height: 520px; margin: 25px auto; border: 6px solid #fff; border-radius: 20px; overflow: hidden; background: #000; box-shadow: 0 15px 35px rgba(0,0,0,0.7); }
         .page-img { width: 100%; height: 100%; object-fit: cover; }
-        .page-text { position: absolute; bottom: 0; left: 0; right: 0; padding: 40px 15px 15px; color: #fff; font-size: 14px; font-weight: 700; line-height: 1.5; text-align: center; text-shadow: 2px 2px 4px #000; background: linear-gradient(transparent, rgba(0,0,0,0.95) 100%); }
+        .page-text { position: absolute; bottom: 0; left: 0; right: 0; padding: 50px 20px 20px; color: #fff; font-size: 15px; font-weight: 700; line-height: 1.5; text-align: center; text-shadow: 2px 2px 5px #000; background: linear-gradient(transparent, rgba(0,0,0,0.98) 100%); }
     </style>
 </head>
 <body>
 
     <div class="card" id="mainCard">
         <div id="step0" class="step active">
-            <h2>Hoş Geldiniz ✨</h2>
-            <p>Masalın sesli özelliklerini kullanabilmek için lütfen aşağıdaki butona basarak izin verin.</p>
-            <button class="btn-start" onclick="requestPermissions()">SİHRİ BAŞLAT ✨</button>
+            <h2 style="color:#f1c40f">Sihirli Masal Hazırlığı ✨</h2>
+            <p>Sesli masal yazma ve dinleme özelliklerini aktif etmek için lütfen aşağıdaki butona tıklayın.</p>
+            <button class="btn-start" onclick="prepareSystem()">SİSTEMİ HAZIRLA ✨</button>
+            <p style="font-size:11px; margin-top:15px; color:#aaa;">(Mikrofon ve ses motoru izni istenecektir)</p>
         </div>
 
         <div id="step1" class="step">
             <h2>Kimin İçin?</h2>
-            <button class="btn-prens" onclick="initApp('Prens')">PRENSİM İÇİN 👑</button>
-            <button class="btn-prenses" onclick="initApp('Prenses')">PRENSESİM İÇİN 🎀</button>
+            <button class="btn-prens" onclick="setGender('Prens')">PRENSİM İÇİN 👑</button>
+            <button class="btn-prenses" onclick="setGender('Prenses')">PRENSESİM İÇİN 🎀</button>
         </div>
 
         <div id="step2" class="step">
             <h3 id="wordTitle">1. Kelime</h3>
-            <p style="font-size:12px; color:#aaa;">(Mikrofonu kullanmak için butona basın)</p>
-            <input type="text" id="wordInput" placeholder="Kelimeyi söyleyin...">
-            <button id="micBtn" class="btn-voice" onclick="startVoiceRecognition()">🎙️ SESLE SÖYLE</button>
+            <input type="text" id="wordInput" placeholder="Kelimeyi buraya yaz veya söyle...">
+            <button id="micBtn" class="btn-voice" onclick="startVoice()">🎙️ SESLE SÖYLE</button>
+            
             <div style="display:flex; gap:10px;">
-                <button class="btn-prens" style="background:#555" onclick="moveWord(-1)">⬅</button>
-                <button id="nextBtn" class="btn-prens" onclick="moveWord(1)">Sıradaki ➡</button>
+                <button class="btn-control" onclick="moveWord(-1)">⬅ GERİ DÖN</button>
+                <button id="nextBtn" class="btn-control" style="background:#27ae60" onclick="moveWord(1)">İLERİ ➡</button>
             </div>
         </div>
 
         <div id="step3" class="step">
-            <h2>Hazırız!</h2>
-            <button id="finalBtn" class="btn-prens" style="background:#2ecc71" onclick="startMagic()">MASALI OLUŞTUR 🪄</button>
-            <p id="statusMsg" class="wait-msg"></p>
+            <h2>Masalın Dokunuyor! 🪄</h2>
+            <p id="wordSummary" style="font-size:13px; color:#f1c40f;"></p>
+            <button id="finalBtn" class="btn-prens" style="background:#2ecc71" onclick="generateStory()">MASALI OLUŞTUR 📖</button>
+            <div id="statusMsg" class="wait-msg"></div>
         </div>
     </div>
 
     <div id="resultArea" style="display:none; width: 100%; text-align: center;">
         <div id="storyContent"></div>
-        <button onclick="location.reload()" style="background: #555; width: 200px; margin: 20px;">BAŞTAN BAŞLA</button>
+        <div style="margin: 30px 0 60px;">
+            <button id="pdfBtn" onclick="generatePDF()" style="background: #e67e22; width: 80%; max-width: 300px;">📄 PDF OLARAK KAYDET</button>
+            <button onclick="location.reload()" style="background: transparent; border: 1px solid #fff; width: 80%; max-width: 300px; margin-top:10px;">BAŞTAN BAŞLA</button>
+        </div>
     </div>
 
     <script>
-        const API_KEY = "AIzaSyCxWkBC4p2AJzDx4PlSoY2XrGLlhFrOJkk";
+        const API_KEY = "AIzaSyAIOkyftY7Bf5vl5cDz6aB38ebA5L9PI3w";
         let config = { gender: '', words: [], current: 0, total: 5 };
 
-        // 1. İzinleri İste
-        async function requestPermissions() {
+        // 1. Mikrofon ve Ses Motoru İzni
+        async function prepareSystem() {
             try {
-                // Mikrofon izni iste
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                stream.getTracks().forEach(track => track.stop()); // İzni aldık, şimdilik kapatalım
-
-                // Ses motorunu uyandır
-                if ('speechSynthesis' in window) {
-                    const u = new SpeechSynthesisUtterance("Sihir başlıyor");
-                    u.volume = 0; // Sessizce uyandır
-                    window.speechSynthesis.speak(u);
-                }
+                stream.getTracks().forEach(t => t.stop()); // İzni aldık, kanalı kapattık
                 
+                if ('speechSynthesis' in window) {
+                    const u = new SpeechSynthesisUtterance("");
+                    window.speechSynthesis.speak(u); // Motoru uyandır
+                }
                 showStep(1);
             } catch (err) {
-                alert("Sesli özellikler için mikrofon izni gereklidir. Lütfen tarayıcı ayarlarından izin verin.");
-                showStep(1); // İzin verilmese de devam et (manuel yazım için)
+                alert("Sesli özellikler için mikrofon izni gereklidir.");
+                showStep(1);
             }
         }
 
@@ -102,92 +104,111 @@
             document.getElementById('step' + idx).classList.add('active');
         }
 
-        function initApp(g) {
+        function setGender(g) {
             config.gender = g;
             document.body.className = (g === 'Prens') ? 'theme-prens' : 'theme-prenses';
             showStep(2);
         }
 
-        function startVoiceRecognition() {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) return alert("Tarayıcınız ses tanımayı desteklemiyor.");
-            
-            const r = new SpeechRecognition();
+        function startVoice() {
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRec) return alert("Cihazınız ses tanımayı desteklemiyor.");
+            const r = new SpeechRec();
             r.lang = 'tr-TR';
-            const micBtn = document.getElementById('micBtn');
-            
-            r.onstart = () => { micBtn.innerText = "🔴 DİNLENİYOR..."; micBtn.style.background = "red"; };
-            r.onend = () => { micBtn.innerText = "🎙️ SESLE SÖYLE"; micBtn.style.background = "#9b59b6"; };
-            
-            r.onresult = (e) => {
-                const text = e.results[0][0].transcript;
-                document.getElementById('wordInput').value = text;
-            };
+            const btn = document.getElementById('micBtn');
+            r.onstart = () => { btn.innerText = "🔴 DİNLENİYOR..."; btn.style.background = "#e74c3c"; };
+            r.onend = () => { btn.innerText = "🎙️ SESLE SÖYLE"; btn.style.background = "#9b59b6"; };
+            r.onresult = (e) => { document.getElementById('wordInput').value = e.results[0][0].transcript; };
             r.start();
         }
 
         function moveWord(dir) {
             const val = document.getElementById('wordInput').value.trim();
-            if (dir === 1 && !val) return alert("Kelime girin.");
+            if (dir === 1 && !val) return alert("Lütfen bir kelime girin.");
             
             config.words[config.current] = val;
             config.current += dir;
             
-            if (config.current < 0) { config.current = 0; showStep(1); }
-            else if (config.current >= config.total) showStep(3);
-            else {
+            if (config.current < 0) { 
+                config.current = 0; 
+                showStep(1); 
+            } else if (config.current >= config.total) {
+                document.getElementById('wordSummary').innerText = "Kelimelerin: " + config.words.join(", ");
+                showStep(3);
+            } else {
                 document.getElementById('wordTitle').innerText = `${config.current + 1}. Kelime`;
                 document.getElementById('wordInput').value = config.words[config.current] || "";
             }
         }
 
-        function speakPage(text) {
+        function speak(text) {
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(text);
-            u.lang = 'tr-TR';
-            u.rate = 0.9;
+            u.lang = 'tr-TR'; u.rate = 0.9;
             window.speechSynthesis.speak(u);
         }
 
-        async function startMagic() {
+        async function generateStory() {
             const status = document.getElementById('statusMsg');
+            const btn = document.getElementById('finalBtn');
             status.style.display = "block";
-            document.getElementById('finalBtn').disabled = true;
+            btn.disabled = true;
 
             try {
-                status.innerText = "Masal yazılıyor... ✨";
+                status.innerText = "Yapay zeka masalınızı yazıyor... ✨";
                 const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ contents: [{ parts: [{ text: `${config.gender} için şu kelimelerle 5 sayfalık masal yaz. Sayfa aralarına [SAYFA] koy: ${config.words.join(", ")}` }] }] })
+                    body: JSON.stringify({ contents: [{ parts: [{ text: `${config.gender} için şu kelimeleri içeren 5 sayfalık bir masal yaz: ${config.words.join(", ")}. Sayfa aralarına [SAYFA] yaz.` }] }] })
                 });
 
                 const data = await res.json();
-                const pages = data.candidates[0].content.parts[0].text.split('[SAYFA]').slice(0, 5);
+                const pages = data.candidates[0].content.parts[0].text.split('[SAYFA]').filter(p => p.length > 10).slice(0, 5);
                 const container = document.getElementById('storyContent');
 
                 for (let i = 0; i < pages.length; i++) {
-                    status.innerText = `Sayfa ${i+1} hazırlanıyor (15sn)... 🎨`;
+                    status.innerHTML = `Sayfa ${i+1} çiziliyor... ✨<br><small>(Hizmet şartları gereği her sayfa için 15sn bekleniyor)</small>`;
                     await new Promise(r => setTimeout(r, 15000));
                     
                     const pTxt = pages[i].replace(/\*/g, '').trim();
-                    const seed = Math.floor(Math.random()*9999);
-                    const imgUrl = `https://image.pollinations.ai/prompt/fairytale_style_${encodeURIComponent(pTxt.substring(0,50))}_${config.gender}?width=700&height=1000&seed=${seed}`;
+                    const seed = Math.floor(Math.random()*99999);
+                    const imgUrl = `https://image.pollinations.ai/prompt/fairytale_illustration_storytelling_${encodeURIComponent(pTxt.substring(0,40))}_${config.gender}?width=700&height=1000&seed=${seed}`;
 
                     container.innerHTML += `
                         <div class="story-page">
                             <img src="${imgUrl}" class="page-img">
                             <div class="page-text">
                                 ${pTxt}
-                                <button class="btn-speak" onclick="speakPage(\`${pTxt.replace(/[`'"]/g, '')}\`)">🔊 DİNLE</button>
+                                <button class="btn-speak" onclick="speak(\`${pTxt.replace(/[`'"]/g, '')}\`)">🔊 DİNLE</button>
                             </div>
                         </div>`;
                 }
                 document.getElementById('mainCard').style.display = "none";
                 document.getElementById('resultArea').style.display = "block";
-            } catch (e) { status.innerText = "Hata oluştu, tekrar deneyin."; }
+            } catch (e) { 
+                status.innerText = "Hata oluştu: " + e.message + ". Lütfen 1 dakika bekleyip tekrar deneyin."; 
+                btn.disabled = false;
+            }
+        }
+
+        async function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const pages = document.querySelectorAll('.story-page');
+            const btn = document.getElementById('pdfBtn');
+            btn.innerText = "PDF Hazırlanıyor..."; btn.disabled = true;
+
+            for (let i = 0; i < pages.length; i++) {
+                const speakBtn = pages[i].querySelector('.btn-speak');
+                speakBtn.style.display = 'none';
+                const canvas = await html2canvas(pages[i], { useCORS: true, scale: 2 });
+                speakBtn.style.display = 'block';
+                if (i > 0) doc.addPage();
+                doc.addImage(canvas.toDataURL('image/jpeg', 0.8), 'JPEG', 0, 0, 210, 297);
+            }
+            doc.save("Masalim.pdf");
+            btn.innerText = "📄 PDF İNDİR"; btn.disabled = false;
         }
     </script>
 </body>
 </html>
-             
