@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sihirli Sesli Masal Kitabı v5.0</title>
+    <title>Sihirli Sesli Masal Kitabı v7.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -12,231 +12,182 @@
             --prens-bg: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             --prenses-bg: linear-gradient(135deg, #ff9a9e, #fad0c4, #ffd1ff);
         }
-        body { transition: all 0.5s ease; background: #0f0c29; color: #fff; font-family: 'Montserrat', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        .card { background: rgba(26, 26, 46, 0.98); padding: 30px; border-radius: 25px; width: 90%; max-width: 420px; margin-top: 40px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.6); border: 2px solid rgba(255,255,255,0.1); }
+        body { transition: all 0.5s ease; background: #0f0c29; color: #fff; font-family: 'Montserrat', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; }
+        .card { background: rgba(26, 26, 46, 0.98); padding: 25px; border-radius: 25px; width: 85%; max-width: 400px; margin-top: 30px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.6); border: 2px solid rgba(255,255,255,0.1); }
         .step { display: none; }
-        .step.active { display: block; animation: slideIn 0.4s ease-out; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .step.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
-        button { width: 100%; padding: 16px; border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        button:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn-prens { background: #3498db; }
-        .btn-prenses { background: #ff85a2; }
-        .btn-next { background: #2c3e50; }
-        .btn-voice { background: #9b59b6; width: auto; padding: 10px 20px; font-size: 12px; }
-        .btn-speak { background: #e74c3c; width: 140px; padding: 10px; margin: 10px auto; font-size: 13px; display: block; border: 1px solid #fff; }
+        button { width: 100%; padding: 15px; border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; font-size: 16px; }
+        button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-prens { background: #3498db; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4); }
+        .btn-prenses { background: #ff85a2; box-shadow: 0 4px 15px rgba(255, 133, 162, 0.4); }
+        .btn-start { background: #f1c40f; color: #000; font-size: 18px; }
+        .btn-voice { background: #9b59b6; width: auto; padding: 10px 20px; font-size: 13px; margin-bottom: 10px; border: 2px solid #fff; }
+        .btn-speak { background: #e74c3c; width: 150px; padding: 10px; margin: 10px auto; font-size: 14px; display: block; }
 
-        input, select { width: 100%; padding: 14px; margin: 15px 0; border-radius: 10px; border: 2px solid #333; font-size: 16px; text-align: center; box-sizing: border-box; }
+        input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 10px; border: 2px solid #333; font-size: 16px; text-align: center; box-sizing: border-box; }
+        .wait-msg { color: #f1c40f; font-weight: bold; margin-top: 20px; display: none; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; }
         
-        /* MASAL SAYFASI */
-        .story-page { 
-            position: relative; width: 340px; height: 520px; margin: 25px auto; 
-            border: 8px solid #fff; border-radius: 15px; overflow: hidden; background: #111;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
-        }
+        .story-page { position: relative; width: 340px; height: 520px; margin: 20px auto; border: 6px solid #fff; border-radius: 15px; overflow: hidden; background: #000; }
         .page-img { width: 100%; height: 100%; object-fit: cover; }
-        .page-text { 
-            position: absolute; bottom: 0; left: 0; right: 0; padding: 40px 20px 20px; 
-            color: #fff; font-size: 14px; font-weight: 700; line-height: 1.5; text-align: center;
-            text-shadow: 2px 2px 5px #000;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9) 30%, rgba(0,0,0,1) 100%);
-        }
-        .wait-msg { color: #f1c40f; font-weight: bold; margin-top: 20px; display: none; line-height: 1.5; }
-        .theme-prens { background: var(--prens-bg); }
-        .theme-prenses { background: var(--prenses-bg); }
+        .page-text { position: absolute; bottom: 0; left: 0; right: 0; padding: 40px 15px 15px; color: #fff; font-size: 14px; font-weight: 700; line-height: 1.5; text-align: center; text-shadow: 2px 2px 4px #000; background: linear-gradient(transparent, rgba(0,0,0,0.95) 100%); }
     </style>
 </head>
 <body>
 
     <div class="card" id="mainCard">
-        <div id="step1" class="step active">
+        <div id="step0" class="step active">
+            <h2>Hoş Geldiniz ✨</h2>
+            <p>Masalın sesli özelliklerini kullanabilmek için lütfen aşağıdaki butona basarak izin verin.</p>
+            <button class="btn-start" onclick="requestPermissions()">SİHRİ BAŞLAT ✨</button>
+        </div>
+
+        <div id="step1" class="step">
             <h2>Kimin İçin?</h2>
             <button class="btn-prens" onclick="initApp('Prens')">PRENSİM İÇİN 👑</button>
             <button class="btn-prenses" onclick="initApp('Prenses')">PRENSESİM İÇİN 🎀</button>
         </div>
 
         <div id="step2" class="step">
-            <p>Masalınızı kaç kelimeyle kuralım?</p>
-            <select id="wordCount">
-                <option value="3">3</option><option value="4">4</option><option value="5">5</option>
-                <option value="6">6</option><option value="7">7</option><option value="8">8</option>
-                <option value="9">9</option><option value="10">10</option>
-            </select>
-            <button class="btn-next" onclick="setupWords()">Kelimeleri Gir ➡</button>
-        </div>
-
-        <div id="step3" class="step">
             <h3 id="wordTitle">1. Kelime</h3>
-            <input type="text" id="wordInput" placeholder="Yazın veya sesle söyleyin...">
-            <button class="btn-voice" onclick="startVoiceRecognition()">🎙️ SESLE YAZ</button>
+            <p style="font-size:12px; color:#aaa;">(Mikrofonu kullanmak için butona basın)</p>
+            <input type="text" id="wordInput" placeholder="Kelimeyi söyleyin...">
+            <button id="micBtn" class="btn-voice" onclick="startVoiceRecognition()">🎙️ SESLE SÖYLE</button>
             <div style="display:flex; gap:10px;">
-                <button class="btn-next" style="background:#576574" onclick="moveWord(-1)">⬅</button>
-                <button id="nextBtn" class="btn-next" onclick="moveWord(1)">Sıradaki ➡</button>
+                <button class="btn-prens" style="background:#555" onclick="moveWord(-1)">⬅</button>
+                <button id="nextBtn" class="btn-prens" onclick="moveWord(1)">Sıradaki ➡</button>
             </div>
         </div>
 
-        <div id="step4" class="step">
-            <h2>Her Şey Hazır!</h2>
-            <button id="finalBtn" class="btn-prens" style="background:#27ae60" onclick="startMagic()">MASALI OLUŞTUR 🪄</button>
+        <div id="step3" class="step">
+            <h2>Hazırız!</h2>
+            <button id="finalBtn" class="btn-prens" style="background:#2ecc71" onclick="startMagic()">MASALI OLUŞTUR 🪄</button>
             <p id="statusMsg" class="wait-msg"></p>
         </div>
     </div>
 
     <div id="resultArea" style="display:none; width: 100%; text-align: center;">
         <div id="storyContent"></div>
-        <div style="margin: 30px 0 50px;">
-            <button id="pdfBtn" onclick="generatePDF()" style="background: #e67e22; width: 80%; max-width: 300px;">📄 PDF İNDİR</button>
-            <button onclick="location.reload()" style="background: transparent; border: 1px solid #fff; width: 80%; max-width: 300px; margin-top:15px;">YENİ MASAL</button>
-        </div>
+        <button onclick="location.reload()" style="background: #555; width: 200px; margin: 20px;">BAŞTAN BAŞLA</button>
     </div>
 
     <script>
         const API_KEY = "AIzaSyCxWkBC4p2AJzDx4PlSoY2XrGLlhFrOJkk";
-        let config = { gender: '', total: 0, current: 0, words: [] };
+        let config = { gender: '', words: [], current: 0, total: 5 };
+
+        // 1. İzinleri İste
+        async function requestPermissions() {
+            try {
+                // Mikrofon izni iste
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                stream.getTracks().forEach(track => track.stop()); // İzni aldık, şimdilik kapatalım
+
+                // Ses motorunu uyandır
+                if ('speechSynthesis' in window) {
+                    const u = new SpeechSynthesisUtterance("Sihir başlıyor");
+                    u.volume = 0; // Sessizce uyandır
+                    window.speechSynthesis.speak(u);
+                }
+                
+                showStep(1);
+            } catch (err) {
+                alert("Sesli özellikler için mikrofon izni gereklidir. Lütfen tarayıcı ayarlarından izin verin.");
+                showStep(1); // İzin verilmese de devam et (manuel yazım için)
+            }
+        }
 
         function showStep(idx) {
             document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
             document.getElementById('step' + idx).classList.add('active');
         }
 
-       // initApp fonksiyonunu şu şekilde daha güvenli hale getirelim:
-function initApp(g) {
-    try {
-        config.gender = g;
-        document.body.className = (g === 'Prens') ? 'theme-prens' : 'theme-prenses';
-        
-        // Ses motoru hatasını engellemek için try-catch içine aldık
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.getVoices();
-        }
-        
-        showStep(2);
-    } catch (e) {
-        console.log("Başlatma hatası:", e);
-        showStep(2); // Hata olsa bile ikinci adıma geç
-    }
-}
-
- 
-        function setupWords() {
-            config.total = parseInt(document.getElementById('wordCount').value);
-            config.words = new Array(config.total).fill("");
-            config.current = 0;
-            updateWordStep();
-            showStep(3);
-        }
-
-        function updateWordStep() {
-            document.getElementById('wordTitle').innerText = `${config.current + 1}. Kelime`;
-            document.getElementById('wordInput').value = config.words[config.current];
-            document.getElementById('nextBtn').innerText = (config.current === config.total - 1) ? "Tamamla 🎉" : "Sıradaki ➡";
-        }
-
-        function moveWord(dir) {
-            const val = document.getElementById('wordInput').value.trim();
-            if (dir === 1 && !val) return alert("Kelime girilmedi!");
-            config.words[config.current] = val;
-            config.current += dir;
-            if (config.current < 0) showStep(2);
-            else if (config.current >= config.total) showStep(4);
-            else updateWordStep();
+        function initApp(g) {
+            config.gender = g;
+            document.body.className = (g === 'Prens') ? 'theme-prens' : 'theme-prenses';
+            showStep(2);
         }
 
         function startVoiceRecognition() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) return alert("Ses tanıma desteklenmiyor.");
-            const recognition = new SpeechRecognition();
-            recognition.lang = 'tr-TR';
-            recognition.start();
-            recognition.onresult = (e) => { document.getElementById('wordInput').value = e.results[0][0].transcript; };
+            if (!SpeechRecognition) return alert("Tarayıcınız ses tanımayı desteklemiyor.");
+            
+            const r = new SpeechRecognition();
+            r.lang = 'tr-TR';
+            const micBtn = document.getElementById('micBtn');
+            
+            r.onstart = () => { micBtn.innerText = "🔴 DİNLENİYOR..."; micBtn.style.background = "red"; };
+            r.onend = () => { micBtn.innerText = "🎙️ SESLE SÖYLE"; micBtn.style.background = "#9b59b6"; };
+            
+            r.onresult = (e) => {
+                const text = e.results[0][0].transcript;
+                document.getElementById('wordInput').value = text;
+            };
+            r.start();
         }
 
-        // --- GÜNCELLENMİŞ SESLENDİRME FONKSİYONU ---
-        
+        function moveWord(dir) {
+            const val = document.getElementById('wordInput').value.trim();
+            if (dir === 1 && !val) return alert("Kelime girin.");
+            
+            config.words[config.current] = val;
+            config.current += dir;
+            
+            if (config.current < 0) { config.current = 0; showStep(1); }
+            else if (config.current >= config.total) showStep(3);
+            else {
+                document.getElementById('wordTitle').innerText = `${config.current + 1}. Kelime`;
+                document.getElementById('wordInput').value = config.words[config.current] || "";
+            }
+        }
 
-// speakPage fonksiyonunu da şu şekilde güncelle:
-function speakPage(text) {
-    try {
-        if ('speechSynthesis' in window) {
+        function speakPage(text) {
             window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'tr-TR';
-            utterance.rate = 0.85;
-            window.speechSynthesis.speak(utterance);
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'tr-TR';
+            u.rate = 0.9;
+            window.speechSynthesis.speak(u);
         }
-    } catch (e) {
-        console.error("Seslendirme hatası:", e);
-    }
-}
+
         async function startMagic() {
             const status = document.getElementById('statusMsg');
-            const btn = document.getElementById('finalBtn');
             status.style.display = "block";
-            btn.disabled = true;
+            document.getElementById('finalBtn').disabled = true;
 
             try {
-                status.innerText = "Masalın büyülü metni hazırlanıyor... ✨";
-                const aiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`, {
+                status.innerText = "Masal yazılıyor... ✨";
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: `${config.gender} için şu kelimeleri içeren 5 sayfalık masal yaz: ${config.words.join(", ")}. Sayfaları [SAYFA] ile ayır. Her sayfa benzersiz bir sahne anlatsın.` }] }]
-                    })
+                    body: JSON.stringify({ contents: [{ parts: [{ text: `${config.gender} için şu kelimelerle 5 sayfalık masal yaz. Sayfa aralarına [SAYFA] koy: ${config.words.join(", ")}` }] }] })
                 });
 
-                const data = await aiRes.json();
-                const pages = data.candidates[0].content.parts[0].text.split('[SAYFA]').filter(p => p.trim().length > 10).slice(0, 5);
+                const data = await res.json();
+                const pages = data.candidates[0].content.parts[0].text.split('[SAYFA]').slice(0, 5);
                 const container = document.getElementById('storyContent');
 
                 for (let i = 0; i < pages.length; i++) {
-                    // BEKLEME SÜRESİ: 15 Saniye (Tam istediğin gibi)
-                    status.innerText = `Sayfa ${i+1} çiziliyor... (Sabırla bekleniyor: 15sn) 🎨`;
-                    await new Promise(r => setTimeout(r, 15000)); 
-
-                    const cleanText = pages[i].replace(/\*/g, '').trim();
-                    const promptText = encodeURIComponent(cleanText.substring(0, 50));
-                    const seed = Math.floor(Math.random() * 1000000);
+                    status.innerText = `Sayfa ${i+1} hazırlanıyor (15sn)... 🎨`;
+                    await new Promise(r => setTimeout(r, 15000));
                     
-                    // Resim Linki (Gelişmiş Limit Aşımı İçin)
-                    const imgUrl = `https://images.weserv.nl/?url=${encodeURIComponent(`https://image.pollinations.ai/prompt/fairytale_art_${promptText}_${config.gender}?width=700&height=1000&nologo=true&seed=${seed}&cache_bust=${Date.now()}`)}&w=700&h=1000&fit=cover`;
+                    const pTxt = pages[i].replace(/\*/g, '').trim();
+                    const seed = Math.floor(Math.random()*9999);
+                    const imgUrl = `https://image.pollinations.ai/prompt/fairytale_style_${encodeURIComponent(pTxt.substring(0,50))}_${config.gender}?width=700&height=1000&seed=${seed}`;
 
                     container.innerHTML += `
                         <div class="story-page">
-                            <img src="${imgUrl}" class="page-img" crossorigin="anonymous">
+                            <img src="${imgUrl}" class="page-img">
                             <div class="page-text">
-                                ${cleanText}
-                                <button class="btn-speak" onclick="speakPage(\`${cleanText.replace(/[`'"]/g, '')}\`)">🔊 DİNLE</button>
+                                ${pTxt}
+                                <button class="btn-speak" onclick="speakPage(\`${pTxt.replace(/[`'"]/g, '')}\`)">🔊 DİNLE</button>
                             </div>
-                        </div>
-                    `;
+                        </div>`;
                 }
                 document.getElementById('mainCard').style.display = "none";
                 document.getElementById('resultArea').style.display = "block";
-            } catch (err) {
-                status.innerText = "Bağlantı hatası. Lütfen sayfayı yenileyin.";
-                btn.disabled = false;
-            }
-        }
-
-        async function generatePDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF('p', 'mm', 'a4');
-            const pages = document.querySelectorAll('.story-page');
-            const btn = document.getElementById('pdfBtn');
-            btn.innerText = "PDF Hazırlanıyor...";
-            btn.disabled = true;
-
-            for (let i = 0; i < pages.length; i++) {
-                pages[i].querySelector('.btn-speak').style.display = 'none'; // Butonu PDF'te gizle
-                const canvas = await html2canvas(pages[i], { useCORS: true, scale: 2 });
-                pages[i].querySelector('.btn-speak').style.display = 'block';
-                if (i > 0) doc.addPage();
-                doc.addImage(canvas.toDataURL('image/jpeg', 0.8), 'JPEG', 0, 0, 210, 297);
-            }
-            doc.save("Masal_Kitabim.pdf");
-            btn.innerText = "📄 PDF İNDİR";
-            btn.disabled = false;
+            } catch (e) { status.innerText = "Hata oluştu, tekrar deneyin."; }
         }
     </script>
 </body>
 </html>
+             
